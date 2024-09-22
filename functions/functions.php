@@ -92,10 +92,16 @@
         return $userInfos;
     }
 
-    function GetBlogs(){
+    function GetBlogs(int $release = 0){
         include "db.php";
+        
+        $query = "SELECT * FROM blogs INNER JOIN users ON users.u_id = blogs.b_author ";
+        
+        if($release){
+            $query .= " WHERE b_release = 1 ";
+        }
 
-        $query = "SELECT * FROM blogs INNER JOIN users ON users.u_id = blogs.b_author ORDER BY b_createdDate DESC";
+        $query .= " ORDER BY b_createdDate DESC";
 
         $pd = $connect->prepare($query);
 
@@ -112,7 +118,7 @@
         $strlen = strlen($content);
 
         if($strlen > 200){
-            $split = str_split($content,"200")[0] . "..."."<a class='links' href='".$path."?id=".$id."'> devamı</a>";
+            $split = str_split($content,"300")[0] . "..."."<a class='links' href='".$path."?id=".$id."'> devamı</a>";
             return $split;
         }
 
@@ -155,6 +161,80 @@
         $pd = $connect->prepare($query);
 
         $pd->execute([":author"=>$userId,":title"=>$title,":content"=>$content,":image"=>$image]);
+    }
+
+    function Get10Blogs(int $id){
+        include "db.php";
+
+        $query = "SELECT * FROM blogs LIMIT :limits OFFSET :offset";
+
+        $offset = ($id - 1) * 10;
+
+        $stmt = $connect->prepare("SELECT * FROM blogs INNER JOIN users ON users.u_id = blogs.b_author WHERE b_release = 1 ORDER BY b_createdDate DESC LIMIT :limits OFFSET :offset");
+        $stmt->bindValue(':limits', (int)10, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
+    function Visible(int $id){
+        include "db.php";
+
+        $query = "SELECT * FROM blogs WHERE b_id = :id";
+
+        $pd = $connect->prepare($query);
+
+        $pd->execute([":id"=>$id]);
+
+        $status = $pd->fetch()["b_release"];
+
+        $query = "UPDATE blogs SET b_release = :visible WHERE b_id = :id";
+
+        $pd = $connect->prepare($query);
+
+        if($status){
+            $pd->execute([":visible"=>0,":id"=>$id]);
+        }else{
+            $pd->execute([":visible"=>1,":id"=>$id]);
+        }
+    }
+
+
+    function PersonalBlogs(int $id){
+        include "db.php";
+
+        $query = "SELECT * FROM blogs INNER JOIN users ON u_id = b_author WHERE b_author = :id";
+
+        $pd = $connect->prepare($query);
+
+        $pd->execute([":id"=>$id]);
+
+        $result = $pd->fetchAll();
+
+        return $result;
+    }
+
+    function DeleteBlogs(int $id){
+        include "db.php";
+
+        $query = "DELETE FROM blogs WHERE b_id = :id";
+
+        $pd = $connect->prepare($query);
+
+        $pd->execute([":id"=>$id]);
+    }
+
+    function DeleteUsers(int $id){
+        include "db.php";
+
+        $query = "DELETE FROM users WHERE u_id = :id";
+
+        $pd = $connect->prepare($query);
+
+        $pd->execute([":id"=>$id]);
     }
 
 ?>

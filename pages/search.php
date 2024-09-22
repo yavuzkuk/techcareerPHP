@@ -1,10 +1,21 @@
 <?php
 
-    include "../functions/functions.php";
-    session_start();
+  include "../functions/functions.php";
+  session_start();
+  
+  include "../parts/perm/livePermCheck.php";
+  $blogs = GetBlogs();
+
+  // if(isset($_GET["search"]) && !empty($_GET["search"])){
+  //   $result = GetFilterBlog($_GET["search"]);
     
-    include "../parts/perm/livePermCheck.php";
-    $blogs = GetBlogs();
+  //   echo "<pre>";
+  //   print_r($result);
+  //   echo"</pre>";
+  // }else{
+  //   header("Location:index.php");
+  //   exit();
+  // }
 
 ?>
 
@@ -27,7 +38,9 @@
     <div class="container-fluid mt-3 mb-5">
         <div class="row">
             <div class="col-2"></div>
-            
+            <div class="col-8" style="background-color: red">
+
+            </div>
             <div class="col-2"></div>
         </div>
     </div>

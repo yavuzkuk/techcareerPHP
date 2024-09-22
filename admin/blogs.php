@@ -71,17 +71,33 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Yazar</th>
-                                            <th>Başlık</th>
-                                            <th>Oluşturulma Tarihi</th>
+                                            <th style="width: 25%;">Yazar</th>
+                                            <th style="width: 25%;">Başlık</th>
+                                            <th style="width: 15%;">Oluşturulma Tarihi</th>
+                                            <th style="width: 10%;">Yayın durumu</th>
+                                            <th style="width: 20%;">İşlemler</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach($blogs as $blog):?>
                                             <tr>
-                                                <td><?php echo $blog["b_author"]?></td>
-                                                <td><?php echo $blog["b_title"]?></td>
-                                                <td><?php echo $blog["b_createdDate"]?></td>
+                                                <td>
+                                                    <?php echo $blog["u_username"]?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $blog["b_title"]?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $blog["b_createdDate"]?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $blog["b_release"] ? "Yayında" : "Yayında değil" ?>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-primary" href="detail.php?id=<?php echo $blog["b_id"]?>">Detay</a>
+                                                    <?php echo $blog["b_release"] ? "<a href='phpPro/changeVisible.php?id=".$blog["b_id"]."' class='btn btn-success'>Yayından al</a>" : "<a href='phpPro/changeVisible.php?id=".$blog["b_id"]."'' class='btn btn-secondary'>Yayınla</a>" ?>
+                                                    <a class="btn btn-danger" href="./phpPro//delete.php?id=<?php echo $blog["b_id"]?>">Sil</a>
+                                                </td>
                                             </tr>
                                         <?php endforeach?>
                                     </tbody>

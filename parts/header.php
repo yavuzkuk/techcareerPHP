@@ -9,32 +9,28 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="index.php">Anasayfa</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
       </ul>
-      <form action="search.php" class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <form action="search.php" method="get" class="d-flex" role="search">
+        <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
       <?php if(isset($_SESSION["isLogin"]) && $_SESSION["isLogin"] == "true"):?>
-        <?php if(isset($_SESSION["isAdmin"]) && $_SESSION["isAdmin"] == "true"):?>
-          <a href="../admin/" class="btn btn-outline-danger mx-2">Admin Paneli</a>
+          <div class="dropdown" style="margin-left: 10px;">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              İşlemler
+            </a>
+            <ul class="dropdown-menu">
+              <?php if(isset($_SESSION["isAdmin"]) && $_SESSION["isAdmin"] == "true"):?>
+                <li><a class="dropdown-item" href="../admin/">Admin paneli</a></li>
+              <?php endif?>
+              <li><a class="dropdown-item" href="../pages/myblogs.php">Yazılarım</a></li>
+              <li><a class="dropdown-item" href="u_write.php">Yazı ekle <i class="fa-solid fa-plus"></i></a></li>
+              <li><a class="dropdown-item" href="../pages/phpPro/logout.php">Çıkış yap</a></li>
+            </ul>
+          </div>
         <?php else:?>
-          <a href="u_write.php" class="btn btn-outline-danger mx-2">Yazı ekle <i class="fa-solid fa-plus"></i></a>  
+          <a href="login.php" class="btn btn-success mx-2">Giriş yap</a>
         <?php endif?>
-        <a href="phpPro/logout.php" class="btn btn-outline-danger mx-2">Çıkış yap</a>
-      <?php else:?>
-        <a href="login.php" class="btn btn-success mx-2">Giriş yap</a>
-      <?php endif?>
     </div>
   </div>
 </nav>

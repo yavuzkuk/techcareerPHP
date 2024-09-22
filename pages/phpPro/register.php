@@ -15,7 +15,7 @@
             $passwd2 = $filteredList[3];
             if ($passwd == $passwd2){
 
-                $userId = Register($username,$email,$passwd);
+                $userId = Register($username,$email,md5($passwd));
                 $_SESSION["isLogin"] = "true";
                 $_SESSION["id"] = $userId;
                 $_SESSION["isAdmin"] = "false";

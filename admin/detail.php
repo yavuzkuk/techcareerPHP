@@ -5,7 +5,17 @@
 
     include "parts/perm/adminPerm.php";
 
-    $usersInfos = GetUsers($_SESSION["id"]);
+    if(isset($_GET["id"]) && intval($_GET["id"]) != 0){
+        $speBlog = GetSpecBlog($_GET["id"]);
+
+        if(empty($speBlog)){
+            header("Location:index.php");
+            exit();
+        }
+    }else{
+        header("Location:index.php");
+        exit();
+    }
 ?>
 
 
@@ -20,7 +30,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin Paneli - Kullanıcılar</title>
+    <title>Admin Panel - Yazılar</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -30,8 +40,6 @@
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-    <script src="https://kit.fontawesome.com/0994de659f.js" crossorigin="anonymous"></script>
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -44,7 +52,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php include "parts/sidebar.php"?>
+        <?php include "parts/sidebar.php";?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -54,42 +62,29 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include "parts/topbar.php"?>
+                <?php include "parts/topbar.php";
+                    include "../parts/message.php";
+                ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Kullancılar</h1>
+                    <h1 class="h3 mb-2 text-gray-800"><?php echo $speBlog["b_title"]?></h1>
                 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Kullanıcı adı</th>
-                                            <th>E-Mail</th>
-                                            <th>Admin</th>
-                                            <th>Kayıt tarihi</th>
-                                            <th>İşlemler</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach($usersInfos as $user):?>
-                                            <tr>
-                                                <td><?php echo $user["u_username"]?></td>
-                                                <td><?php echo $user["u_email"]?></td>
-                                                <td><?php echo $user["u_isAdmin"] ? '<i class="fa-solid fa-check"> </i>' : '<i class="fa-solid fa-ban"></i>' ?></td>
-                                                <td><?php echo $user["u_registerDate"]?></td>
-                                                <td><a href="phpPro//deleteUser.php?id=<?php echo $user["u_id"]?>" class="btn btn-danger">Sil</a></td>
-                                            </tr>
-                                        <?php endforeach?>
-                                    </tbody>
-                                </table>
+                            <div style="width: 300px;">
+                                <img src="../assets//upload//<?php echo $speBlog["b_image"]?>" class="img-fluid" alt="">
                             </div>
+                            <div class="table-responsive">
+                                <?php echo $speBlog["b_content"]?>
+                            </div>
+                        <hr>
+                        <?php echo $speBlog["b_createdDate"]."<br>"?>
+                        <?php echo $speBlog["u_username"]." - ". $speBlog["u_email"] ?>
                         </div>
                     </div>
 

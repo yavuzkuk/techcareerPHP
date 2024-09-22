@@ -77,7 +77,7 @@
                     <?php else:?>
                         <div class="row">
                             <?php for ($i=0; $i < count($blogs) && $i < 10 ; $i++):?>
-                                <div class="col-lg-4 mb-4">
+                                <div class="col-lg-4 mb-4" style="display: flex">
                                     <!-- Approach -->
                                     <div class="card shadow mb-4">
                                         <div class="card-header py-3">

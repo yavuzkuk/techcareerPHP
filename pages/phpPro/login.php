@@ -5,7 +5,7 @@
         $filteredList = Filter($_POST);
         
         
-        $result = Login($filteredList[0],$filteredList[1]);
+        $result = Login($filteredList[0],md5($filteredList[1]));
 
         if($result["Count"]){
             $_SESSION["isLogin"] = true;

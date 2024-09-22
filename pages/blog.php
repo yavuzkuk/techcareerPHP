@@ -14,6 +14,11 @@
             header("Location:../404.html");
             exit();
         }
+
+        if(!$speBlog["b_release"]){
+            header("Location:index.php");
+            exit(); 
+        }
     }else{
         header("Location:../404.html");
         exit();
