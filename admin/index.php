@@ -71,35 +71,33 @@
 
                     </div>
                     
-                    <h2>Son yazılar</h2>
+                    <!-- <h2>Son yazılar</h2>
                     <?php if(count($blogs) == 0):?>
                         <h5>Yazılmış bir yazı yok.</h5>
                     <?php else:?>
-                        <div class="row">
-                            <?php for ($i=0; $i < count($blogs) && $i < 10 ; $i++):?>
-                                <div class="col-lg-4 mb-4" style="display: flex">
-                                    <!-- Approach -->
-                                    <div class="card shadow mb-4">
+                        <div class="row" style="background-color: yellow;">
+                            <?php for ($i=0; $i < count($blogs) && $i < 6 ; $i++):?>
+                                <div class="col-4 mb-4 bg-danger">
+                                    <div class="card shadow mb-4" style="height:300px;">
                                         <div class="card-header py-3">
                                             <a href="blogshow.php?id=<?php echo $blogs[$i]["b_id"]?>">
                                                 <h6 class="m-0 font-weight-bold text-primary"><?php echo $blogs[$i]["b_title"]?></h6>
                                             </a>
                                         </div>
                                         <div class="card-body">
-                                            <p><?php echo TextSplit($blogs[$i]["b_content"],$blogs[$i]["b_id"],"blogshow.php")?></p>
+                                            <p><?php echo html_entity_decode(TextSplit($blogs[$i]["b_content"],$blogs[$i]["b_id"],"blogshow.php"))?></p>
                                         </div>
                                         <div class="card-footer">
                                             <div>
-                                                <p><?php echo $blogs[$i]["u_username"]?></p>
+                                                <p><?php echo htmlspecialchars($blogs[$i]["u_username"])?></p>
                                                 <p><?php echo $blogs[$i]["b_createdDate"]?></p>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             <?php endfor?>
                         </div>
-                    <?php endif?>
+                    <?php endif?> -->
                     
                     <div class="mt-3">
                         <h2>Son kayıt olan kullanıcılar</h2>
@@ -107,15 +105,14 @@
                             <h5>Kayıtlı kullanıcı yok.</h5>
                         <?php else:?>
                             <div class="row">
-                                <?php for ($i=0; $i < count($users) && $i < 12 ; $i++):?>
+                                <?php for ($i=0; $i < count($users) && $i < 6 ; $i++):?>
                                     <div class="col-lg-4 mb-4">
-                                        <!-- Approach -->
                                         <div class="card shadow mb-4">
                                             <div class="card-header py-3">
-                                                <h6 class="m-0 font-weight-bold text-primary"><?php echo $users[$i]["u_username"]?></h6>
+                                                <h6 class="m-0 font-weight-bold text-primary"><?php echo htmlspecialchars($users[$i]["u_username"])?></h6>
                                             </div>
                                             <div class="card-body">
-                                                <p><?php echo $users[$i]["u_email"]?></p>
+                                                <p><?php echo htmlspecialchars($users[$i]["u_email"])?></p>
                                             </div>
                                         </div>
 

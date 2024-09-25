@@ -14,8 +14,9 @@
             header("Location:../404.html");
             exit();
         }
+        if(!$speBlog["b_release"] && $speBlog["b_author"] == $_SESSION["id"]){
 
-        if(!$speBlog["b_release"]){
+        }else if(!$speBlog["b_release"]){
             header("Location:index.php");
             exit(); 
         }

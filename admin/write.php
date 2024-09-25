@@ -201,6 +201,39 @@
             theme: 'snow',
         });
 
+        quill.getModule('toolbar').addHandler('image', () => {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            input.click();
+
+            input.onchange = () => {
+                const file = input.files[0];
+                const formData = new FormData();
+                formData.append('image', file);
+
+                // Resmi PHP'ye yüklemek için fetch kullanın
+                fetch('WriteUpload.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.imageUrl) {
+                        // Yükleme başarılıysa resim URL'sini Quill'e ekleyin
+                        const range = quill.getSelection();
+                        quill.insertEmbed(range.index, 'image', result.imageUrl);
+                    } else {
+                        console.error('Resim yükleme hatası:', result.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Resim yükleme hatası:', error);
+                });
+            };
+        });
+
+
 
         document.getElementById("form").onsubmit = function() {
             var content = quill.root.innerHTML;

@@ -42,6 +42,7 @@
                             $date = $blogs[$i]["b_createdDate"];
                             $author = $blogs[$i]["u_username"];
                             $image = $blogs[$i]["b_image"];
+                            $delete = true;
                             include "../parts/news.php";
                         }
                         ?>

@@ -60,6 +60,7 @@
                             $date = $tenBlog[$i]["b_createdDate"];
                             $author = $tenBlog[$i]["u_username"];
                             $image = $tenBlog[$i]["b_image"];
+                            $delete = false;
                             include "../parts/news.php";
                         }
                         ?>

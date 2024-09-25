@@ -54,7 +54,9 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include "parts/topbar.php"?>
+                <?php include "parts/topbar.php";
+                    include "../parts/message.php";
+                ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -80,11 +82,18 @@
                                     <tbody>
                                         <?php foreach($usersInfos as $user):?>
                                             <tr>
-                                                <td><?php echo $user["u_username"]?></td>
-                                                <td><?php echo $user["u_email"]?></td>
-                                                <td><?php echo $user["u_isAdmin"] ? '<i class="fa-solid fa-check"> </i>' : '<i class="fa-solid fa-ban"></i>' ?></td>
-                                                <td><?php echo $user["u_registerDate"]?></td>
-                                                <td><a href="phpPro//deleteUser.php?id=<?php echo $user["u_id"]?>" class="btn btn-danger">Sil</a></td>
+                                                <td><?php echo htmlspecialchars($user["u_username"])?></td>
+                                                <td><?php echo htmlspecialchars($user["u_email"])?></td>
+                                                <td><?php echo htmlspecialchars($user["u_isAdmin"]) ? '<i class="fa-solid fa-check"> </i>' : '<i class="fa-solid fa-ban"></i>' ?></td>
+                                                <td><?php echo htmlspecialchars($user["u_registerDate"])?></td>
+                                                <td>
+                                                    <a href="phpPro/deleteUser.php?id=<?php echo $user["u_id"]?>" class="btn btn-danger">Sil</a>
+                                                    <?php if($user["u_isAdmin"]):?>
+                                                        <a href="phpPro/changeAdmin.php?id=<?php echo $user["u_id"]?>&status=1" class="btn btn-secondary">Admin yetkisini al</a>
+                                                    <?php else:?>
+                                                        <a href="phpPro/changeAdmin.php?id=<?php echo $user["u_id"]?>&status=0" class="btn btn-success">Admin yetkisi ver</a>
+                                                    <?php endif?>
+                                                </td>
                                             </tr>
                                         <?php endforeach?>
                                     </tbody>

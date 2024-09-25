@@ -118,7 +118,7 @@
         $strlen = strlen($content);
 
         if($strlen > 200){
-            $split = str_split($content,"300")[0] . "..."."<a class='links' href='".$path."?id=".$id."'> devamı</a>";
+            $split = str_split($content,"150")[0] . "..."."<a class='links' href='".$path."?id=".$id."'> devamı</a>";
             return $split;
         }
 
@@ -237,4 +237,27 @@
         $pd->execute([":id"=>$id]);
     }
 
+    function SearchBlogs(string $search) {
+        include "db.php";
+    
+        $query = "SELECT * FROM blogs INNER JOIN users ON users.u_id = blogs.b_author WHERE b_release = 1 AND b_title LIKE :search OR b_content LIKE :search";
+    
+        $pd = $connect->prepare($query);
+    
+        $pd->execute([":search" => '%' . $search . '%']);
+    
+        $result = $pd->fetchAll();
+    
+        return $result;
+    }
+
+    function ChangeAdmin(int $userId,int $perm){
+        include "db.php";
+
+        $query = "UPDATE users SET u_isAdmin = :perm WHERE u_id = :id";
+
+        $pd = $connect->prepare($query);
+
+        $pd->execute([":perm"=>$perm,":id"=>$userId]);
+    }
 ?>
